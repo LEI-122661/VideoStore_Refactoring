@@ -1,0 +1,25 @@
+# IntelliJ
+.idea/
+*.iml
+out/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Java
+*.class
+bin/
+target/
+build/
+
+# Logs / OS
+*.log
+.DS_Store
+Thumbs.db
+
+# Gradle / Maven
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+.mvn/
