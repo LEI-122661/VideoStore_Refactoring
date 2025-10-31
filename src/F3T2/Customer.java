@@ -22,29 +22,55 @@ public class Customer
 		return _name;
 	}
 
-	public String statement()
-	{
-		double totalAmount = 0;
-		int frequentRenterPoints = 0;
+    public String statement() {
 
-		// header
-		String result = "Rental Record for " + getName() + "\n";
-		
-		for (Rental each: _rentals)
-		{
+        // header
+        String result = "Rental Record for " + getName() + "\n";
 
+        for (Rental each : _rentals) {
+            // show figures for this rental
+            result += "\t" + each.getMovie().getTitle() + "\t" + each.getAmount() + "\n";
+        }
 
-            frequentRenterPoints = Rental.getFrequentRenterPoints(each, frequentRenterPoints);
+        // add footer lines
+        result += "Amount owed is " + getTotalAmount() + "\n";
+        result += "You earned " + getTotalFrequentRenterPoints() + " frequent renter points";
+        return result;
+    }
 
-			// show figures for this rental
-			result += "\t" + each.getMovie().getTitle() + "\t" + each.getAmount() + "\n";
-			totalAmount += each.getAmount();
-		}
+    public String htmlStatement() {
 
-		// add footer lines
-		result += "Amount owed is " + totalAmount + "\n";
-		result += "You earned " + frequentRenterPoints + " frequent renter points";
-		return result;
-	}
+        // header
+        String result = "<font size=\"5\" face=\"Georgia, Arial, Garamond\" color=\"#9d3dcc\">\n";
+        result += "<h2>Rental Record for <i>" + getName() + "</i></h2>\n";
+
+        result += "<ul>\n";
+        for (Rental each : _rentals) {
+            // show figures for this rental
+            result += "\t<li>" + each.getMovie().getTitle() + "\t" + each.getAmount() + "\n";
+        }
+        result += "<ul>\n";
+
+        // add footer lines
+        result += "Amount owed is " + getTotalAmount() + "<br>\n";
+        result += "You earned " + getTotalFrequentRenterPoints() + " frequent renter points<br>";
+        result += "</font>\n";
+        return result;
+    }
+    public int getTotalFrequentRenterPoints() {
+        int frequentRenterPoints = 0;
+        for (Rental each : _rentals) {
+            frequentRenterPoints += each.getFrequentRentalPoints();
+        }
+        return frequentRenterPoints;
+    }
+
+    public double getTotalAmount() {
+        double totalAmount = 0;
+        for (Rental each : _rentals) {
+            totalAmount += each.getAmount();
+        }
+        return totalAmount;
+    }
 
 }
