@@ -29,7 +29,7 @@ public class Customer
 
         for (Rental each : _rentals) {
             // show figures for this rental
-            result += "\t" + each.getMovie().getTitle() + "\t" + each.getAmount() + "\n";
+            result += "\t" + each.getMovie().getTitle() + "\t" + each.getMovie().getPrice().getRentalAmount(each.getDaysRented()) + "\n";
         }
 
         // add footer lines
@@ -47,7 +47,7 @@ public class Customer
         result += "<ul>\n";
         for (Rental each : _rentals) {
             // show figures for this rental
-            result += "\t<li>" + each.getMovie().getTitle() + "\t" + each.getAmount() + "\n";
+            result += "\t<li>" + each.getMovie().getTitle() + "\t" + each.getMovie().getPrice().getRentalAmount(each.getDaysRented()) + "\n";
         }
         result += "<ul>\n";
 
@@ -60,7 +60,7 @@ public class Customer
     public int getTotalFrequentRenterPoints() {
         int frequentRenterPoints = 0;
         for (Rental each : _rentals) {
-            frequentRenterPoints += each.getFrequentRentalPoints();
+            frequentRenterPoints += each.getMovie().getPrice().getFrequentRentalPoints(each.getDaysRented());
         }
         return frequentRenterPoints;
     }
@@ -68,7 +68,7 @@ public class Customer
     public double getTotalAmount() {
         double totalAmount = 0;
         for (Rental each : _rentals) {
-            totalAmount += each.getAmount();
+            totalAmount += each.getMovie().getPrice().getRentalAmount(each.getDaysRented());
         }
         return totalAmount;
     }
