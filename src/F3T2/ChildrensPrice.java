@@ -7,22 +7,20 @@ public class ChildrensPrice extends Price
 	{
 	}
 
+    public ChildrensPrice(boolean blueray)
+    {
+        super(blueray);
+    }
 
-	public double getRentalAmount(int duration)
-	{
-        if (duration > 3)
-        {
-            return 1.5 + (duration - 3) * 1.5;
-        }
-        else
-        {
-            return 1.5;
-        }
-	}
 
-	public int getFrequentRentalPoints(int duration)
-	{
-		return 1;
-	}
+    public double getRentalAmount(int duration)
+    {
+        return 1.5 + (duration > 3 ? (duration - 3) * 1.5 : 0) + (is_blueray() ? 1 : 0);
+    }
+
+    public int getFrequentRentalPoints(int duration)
+    {
+        return is_blueray() ? 2 : 1;
+    }
 
 }
