@@ -2,53 +2,48 @@ package F3T2;
 
 import java.util.Vector;
 
-public class Customer
-{
-	private String			_name;
-	private Vector<Rental>	_rentals	= new Vector<Rental>();
+public class Customer {
+	private final String _name;
+	private final Vector<Rental> _rentals = new Vector<>();
 
-	public Customer(String _name)
-	{
-		this._name = _name;
+	public Customer(String name) {
+		this._name = name;
 	}
 
-	public void addRental(Rental arg)
-	{
+	public void addRental(Rental arg) {
 		_rentals.addElement(arg);
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return _name;
 	}
 
-	public String statement()
-	{
-		double totalAmount = 0;
-		int frequentRenterPoints = 0;
+	// v4: sem temps locais; usa queries no rodapé
+	public String statement() {
+		StringBuilder result = new StringBuilder("Rental Record for " + getName() + "\n");
 
-		// header
-		String result = "Rental Record for " + getName() + "\n";
-		
-		for (Rental each: _rentals)
-		{
-            double thisAmount = each.getAmount();
-
-            // add frequent renter points
-			frequentRenterPoints++;
-
-			// add bonus for a two day new release rental
-			if ((each.getMovie().getPriceCode() == Movie.Code.NEW_RELEASE) && each.getDaysRented() > 1)
-				frequentRenterPoints++;
-
-			// show figures for this rental
-			result += "\t" + each.getMovie().getTitle() + "\t" + thisAmount + "\n";
-			totalAmount += thisAmount;
+		for (Rental each : _rentals) {
+			result.append("\t")
+					.append(each.getMovie().getTitle())
+					.append("\t")
+					.append(each.getAmount())
+					.append("\n");
 		}
 
-		// add footer lines
-		result += "Amount owed is " + totalAmount + "\n";
-		result += "You earned " + frequentRenterPoints + " frequent renter points";
-		return result;
+		result.append("Amount owed is ").append(getTotalAmount()).append("\n");
+		result.append("You earned ").append(getTotalFrequentRenterPoints()).append(" frequent renter points");
+		return result.toString();
+	}
+
+	private double getTotalAmount() {
+		double total = 0;
+		for (Rental each : _rentals) total += each.getAmount();
+		return total;
+	}
+
+	private int getTotalFrequentRenterPoints() {
+		int total = 0;
+		for (Rental each : _rentals) total += each.getFrequentRenterPoints();
+		return total;
 	}
 }
