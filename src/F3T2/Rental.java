@@ -11,6 +11,16 @@ public class Rental
 		_daysRented = daysRented;
 	}
 
+    static int getFrequentRenterPoints(Rental each, int frequentRenterPoints) {
+		// add frequent renter points
+		frequentRenterPoints++;
+
+		// add bonus for a two-day new release rental
+		if ((each.getMovie().getPriceCode() == Movie.Code.NEW_RELEASE) && each.getDaysRented() > 1)
+			frequentRenterPoints++;
+		return frequentRenterPoints;
+	}
+
     public double getAmount() {
         double thisAmount = 0;
 
